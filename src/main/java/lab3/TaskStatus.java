@@ -1,6 +1,7 @@
 package lab3;
 
-public enum Status {
+
+public enum TaskStatus {
     TO_DO,
     IN_PROGRESS,
     COMPLETED,

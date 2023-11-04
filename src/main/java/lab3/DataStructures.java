@@ -1,66 +1,42 @@
 package lab3;
 
-
-import javax.xml.crypto.Data;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 public class DataStructures {
-    private List<TaskItem> tasks = new ArrayList<>();
+    private List<TaskItem> tasks;
     public DataStructures() {
         tasks = Arrays.asList(
-                new TaskItem(1,"Push lab code to the github", Status.TO_DO),
-                new TaskItem(2,"Prepare for the quiz", Status.IN_PROGRESS),
-                new TaskItem(3,"Go over tasks from lab2", Status.COMPLETED),
-                new TaskItem(4,"Learn javajaja", Status.TO_DO));
+                new TaskItem(1,"Push lab code to the github", TaskStatus.TO_DO),
+                new TaskItem(2,"Prepare for the quiz", TaskStatus.IN_PROGRESS),
+                new TaskItem(3,"Go over tasks from lab2", TaskStatus.COMPLETED),
+                new TaskItem(4,"Learn javajaja", TaskStatus.TO_DO));
     }
 
-    // TODO create a method to get all objects
 
-    public List<TaskItem> returnAll () {
+    public List<TaskItem> getAllObjects () {
         return this.tasks;
     }
 
-    // TODO create a method getByStatus that will accept a Status parameter and filter the tasks with the provided status
-
-    // RETURNA SAMO PRVI TASK KOJI NADJE SA DATIM STATUSOM
-    public Optional<TaskItem> getByStatus(Status status) {
-        return tasks.stream()
-                .filter(task -> {
-                    return task.getStatus().equals(status);
+    public Optional<TaskItem> getByStatus(String status) {
+        TaskStatus desiredStatus = TaskStatus.valueOf(status.toUpperCase());
+        return tasks
+                .stream()
+                .filter(taskItem -> {
+                    return taskItem.getStatus().equals(desiredStatus);
                 }).findFirst();
     }
-
-    // RETURNA LISTU SVIH TASKOVA SA DATIM STATUSOM
-    public List<TaskItem> getByStatusV2(Status status) {
-        List<TaskItem> filteredTasks = tasks.stream()
-                .filter(task -> task.getStatus().equals(status))
+    public List<TaskItem> findIdGrater(int id) {
+        return tasks
+                .stream()
+                .filter(taskItem -> taskItem.getId() >= id)
                 .toList();
-        return filteredTasks;
     }
 
-    // TODO create a method to find tasks whose id parameter greater than or equal to 2
-
-    public List<TaskItem> idBiggerThanTwo() {
-        List<TaskItem> filteredList = tasks.stream()
-                .filter(tasks -> tasks.getId() >= 2)
-                .toList();
-        return filteredList;
+    public void printTaskDescriptions() {
+        tasks.stream()
+                .forEach(taskItem -> System.out.println(taskItem.getDescription()));
     }
 
-    // TODO create a method that will, by using the forEach stream method, print to the console the description of each task
-
-    //public static void main(String[] args) {
-    //    DataStructures ds = new DataStructures();
-    //   ds.returnDesc();
-    //}
-
-    public void returnDesc() {
-        this.tasks.forEach(task -> {
-            System.out.println(task.getDesc());
-        });
-    }
 }

@@ -1,4 +1,4 @@
-package people;
+package lab4.people;
 
 /*
 c) Create the class Teacher in the same package. Teacher inherits Person, but they also
@@ -29,21 +29,9 @@ public class Teacher extends Person {
         this.salary=salary;
     }
 
+    @Override
     public String toString(){
-        return super.toString() + "\n " + "salary " + salary + " euros/month";
-    }
-    public static void main(String[] args) {
-        Teacher pekka = new Teacher("Pekka Mikkola", "Korsontie Street 1 03100 Vantaa", 1200);
-        Teacher esko = new Teacher("Esko Ukkonen", "Mannerheimintie 15 Street 00100 Helsinki", 5400);
-
-        System.out.println(pekka);
-        System.out.println(esko);
-
-        Student olli = new Student("Olli", "Ida Albergintie 1 Street 00400 Helsinki");
-        for (int i = 0; i < 25; i++) {
-            olli.study();
-        }
-        System.out.println(olli);
+        return super.toString() + "\n\tsalary " + this.salary + " euros/month";
     }
 
 }
