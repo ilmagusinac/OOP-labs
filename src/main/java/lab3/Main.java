@@ -2,42 +2,44 @@ package lab3;
 
 import java.sql.SQLException;
 import java.util.*;
+import java.util.List;
+import java.util.Optional;
 
 public class Main {
     public static void main(String[] args) throws SQLException {
-        DbConnect connection = new DbConnect();
 
-        DataStructures dataStructures = new DataStructures();
+        DataStructures ds = new DataStructures();
+
+        List<TaskItem> allTasks = ds.getAllObjects();
+        //1
+        System.out.println("All tasks:");
+        for (TaskItem task : allTasks) {
+            System.out.println(task.getDescription());
+            System.out.println(task.getStatus());
+        }
+        //2
+        Optional<TaskItem> task = ds.getByStatus("TO_DO");
+        if (task.isPresent()) {
+            System.out.println("TO_DO: " + task.get().getDescription());
+        } else {
+            System.out.println("No task found with status 'TO_DO'");
+        }
+        //3
+        List<TaskItem> taskItem = ds.findIdGrater(2);
+        for (TaskItem u : taskItem) {
+            System.out.println(u.getId());
+            System.out.println(u.getDescription());
+            System.out.println(u.getStatus());
+        }
+
+        //4
+        ds.printTaskDescriptions();
 
 
-        Optional<TaskItem> op = dataStructures.getByStatus(Status.TO_DO);
-        op.ifPresent(task -> {
-            System.out.println(task.getDesc());
-        });
-
-        System.out.println("--------");
-
-        List<TaskItem> list = dataStructures.getByStatusV2(Status.TO_DO);
-        list.forEach(task -> {
-            System.out.println(task.getDesc());
-        });
-
-        System.out.println("--------");
-
-        List<TaskItem> newList = dataStructures.idBiggerThanTwo();
-        newList.forEach(task -> {
-            System.out.println(task.getDesc());
-        });
-
-        dataStructures.returnDesc();
-
-        System.out.println("--------");
-
-        connection.getTaskByStatus(Status.CANCELLED);
-
-        System.out.println("--------");
-
-        connection.getAllTasks();
+        System.out.println("DATABASE TASKS : ");
+        DbConnect db = new DbConnect();
+        db.getTaskById(2);
+        db.getAllTasks();
 
     }
 }
